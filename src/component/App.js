@@ -3,6 +3,8 @@ import Display from './Display';
 import ButtonPanel from './ButtonPanel';
 import calculate from '../logic/calculate';
 import './App.css';
+import AlertContainer from 'react-alert';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -12,10 +14,24 @@ class App extends React.Component {
       next: null,
       operation: null,
     };
+    this.alertOptions = {
+      offset: 14,
+      position: 'top right',
+      theme: 'dark',
+      time: 5000,
+      transition: 'scale'
+    };
   }
 
   handleClick = (buttonName) => {
+    this.showAlert(buttonName);
     this.setState(calculate(this.state, buttonName));
+  }
+  showAlert(text){
+    msg.show(text, {
+      time: 2000,
+      type: 'success'
+    });
   }
 
   render() {
@@ -27,6 +43,7 @@ class App extends React.Component {
         <ButtonPanel
           clickHandler={this.handleClick}
         />
+        <AlertContainer ref={(a) => global.msg = a} {...this.alertOptions} />
       </div>
     );
   }
